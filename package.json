@@ -2,11 +2,21 @@
   "name": "itachiacademy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "TahaDevLAb",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "fastest-validator": "^1.19.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.2",
+    "multer": "^2.2.0",
+    "nodemon": "^3.1.14"
+  }
 }
