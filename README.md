@@ -35,7 +35,7 @@ npm install</code></pre>
 
 <p>Create a <code>.env</code> file and add the required environment variables.</p>
 
-<pre><code>npm run dev</code></pre>
+<pre><code>nodemon</code></pre>
 
 <h2>🎯 Goal</h2>
 
