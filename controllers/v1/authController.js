@@ -1,5 +1,6 @@
 const userModel = require("./../../models/users.js")
 const registerValidator = require("../../validators/auth/register.js")
+const loginValidator = require("./../../validators/auth/login.js")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -39,4 +40,28 @@ exports.register = async (req, res) => {
     return res.status(201).json({ User: userObject, acceptToken })
 }
 
-exports.login = async (req, res) => { }
+exports.login = async (req, res) => {
+    const validatorResult = loginValidator(req.body)
+
+    if (validatorResult != true) {
+        return res.status(422).json(validatorResult)
+    }
+
+    const { identity, password } = req.body
+    const user = await userModel.findOne({ $or: [{ phone: identity }, { email: identity }, { username: identity }] })
+
+    if(!user){
+        return res.status(404).json({message:"No user was found with this information."})
+    }
+
+    const passwordHash = await bcrypt.compare(password,user.password)
+    
+    if(!passwordHash){
+        return res.status(422).json({message:"The entered password is incorrect."})
+    }
+
+    const acceptToken = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"30 day"})
+
+    return res.status(200).json({message:"User logged in successfully.",acceptToken})
+    
+}
