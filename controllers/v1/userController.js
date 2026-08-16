@@ -14,6 +14,11 @@ exports.ban = async (req, res) => {
         return res.status(404).json({ message: "No user with this ID was found." })
     }
 
+    const isUserBan = await banPhoneModel.findOne({phone: isUserExist.phone})
+    if(isUserBan){
+        return res.status(200).json({message:"This user has already been banned."})
+    }
+
     const ban = await banPhoneModel.create({
         phone: isUserExist.phone
     })
