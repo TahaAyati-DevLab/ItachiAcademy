@@ -1,4 +1,5 @@
 const userModel = require("./../../models/users.js")
+const banPhoneModel = require("./../../models/ban-phone.js")
 const registerValidator = require("../../validators/auth/register.js")
 const loginValidator = require("./../../validators/auth/login.js")
 const bcrypt = require("bcrypt")
@@ -48,20 +49,27 @@ exports.login = async (req, res) => {
     }
 
     const { identity, password } = req.body
+
     const user = await userModel.findOne({ $or: [{ phone: identity }, { email: identity }, { username: identity }] })
 
-    if(!user){
-        return res.status(404).json({message:"No user was found with this information."})
+    if (!user) {
+        return res.status(404).json({ message: "No user was found with this information." })
     }
 
-    const passwordHash = await bcrypt.compare(password,user.password)
+    const isUserBan = await banPhoneModel.findOne({ phone: user.phone })
     
-    if(!passwordHash){
-        return res.status(422).json({message:"The entered password is incorrect."})
+    if (isUserBan) {
+        return res.status(200).json({ message: "This user has already been banned." })
     }
 
-    const acceptToken = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"30 day"})
+    const passwordHash = await bcrypt.compare(password, user.password)
 
-    return res.status(200).json({message:"User logged in successfully.",acceptToken})
-    
+    if (!passwordHash) {
+        return res.status(422).json({ message: "The entered password is incorrect." })
+    }
+
+    const acceptToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" })
+
+    return res.status(200).json({ message: "User logged in successfully.", acceptToken })
+
 }
