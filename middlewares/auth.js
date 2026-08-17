@@ -1,7 +1,7 @@
 const userModel = require("./../models/users.js")
 const jwt = require("jsonwebtoken")
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     const authHeader = req.header("Authorization").split(" ")
     if (authHeader?.length !== 2) {
         return res.status(422).json({ message: "his route is protected and you can't have access to it !!!" })
