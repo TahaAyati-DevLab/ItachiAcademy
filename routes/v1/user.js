@@ -5,6 +5,7 @@ const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 
 userRouter.post("/ban/:id",authMiddleware,isAdmin,userController.ban)
-userRouter.get("/",userController.getAll)
+userRouter.get("/",authMiddleware,isAdmin,userController.getAll)
+userRouter.get("/ban",authMiddleware,isAdmin,userController.getBan)
 
 module.exports = userRouter
