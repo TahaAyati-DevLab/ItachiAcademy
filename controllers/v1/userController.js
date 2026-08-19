@@ -36,3 +36,17 @@ exports.getBan = async (req, res) => {
     res.status(200).json(bans)
 
 }
+
+exports.remove = async (req, res) => {
+    const id = req.params.id
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
+    }
+
+    const user = await userModel.findByIdAndDelete({ _id: id })
+    if (!user) {
+        return res.status(404).json({ message: "User not found." })
+    }
+
+    return res.status(201).json({message:"User successfully deleted."})
+}
