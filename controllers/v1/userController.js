@@ -48,5 +48,25 @@ exports.remove = async (req, res) => {
         return res.status(404).json({ message: "User not found." })
     }
 
-    return res.status(201).json({message:"User successfully deleted."})
+    return res.status(201).json({ message: "User successfully deleted." })
+}
+
+exports.role = async (req, res) => {
+    const id = req.params.id
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
+    }
+
+    const user = await userModel.findById({ _id: id })
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found." })
+    }
+    const newRole = user.role === "ADMIN" ? "USER" : "ADMIN"
+
+    const userUpdate = await userModel.updateOne({ _id: id }, {
+        role: newRole
+    })
+
+    return res.status(201).json({ message: `The user role ${user.username} was successfully changed to ${newRole}` })
 }
