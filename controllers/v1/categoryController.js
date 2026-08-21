@@ -7,11 +7,11 @@ exports.create = async (req, res) => {
         return res.status(422).json(validatorResult)
     }
 
-    const {title,href} = req.body
+    const { title, href } = req.body
 
-    const isCategoryExist = await categoryModel.findOne({$or:[{title},{title}]})
-    if(isCategoryExist){
-        return res.status(409).json({message:"A category with this title or href already exists."})
+    const isCategoryExist = await categoryModel.findOne({ $or: [{ title }, { title }] })
+    if (isCategoryExist) {
+        return res.status(409).json({ message: "A category with this title or href already exists." })
     }
 
     const category = await categoryModel.create({
@@ -19,8 +19,16 @@ exports.create = async (req, res) => {
         href
     })
 
-    return res.status(201).json({message:"Category successfully created."})
+    return res.status(201).json({ message: "Category successfully created." })
 }
-exports.getCategory = async (req, res) => { }
+
+exports.getCategory = async (req, res) => {
+
+    const categoryies = await categoryModel.find({},"-_id -__v")
+    return res.status(200).json(categoryies)
+
+}
+
 exports.remove = async (req, res) => { }
+
 exports.update = async (req, res) => { }
