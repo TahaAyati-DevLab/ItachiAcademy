@@ -7,5 +7,7 @@ const isAdmin = require("./../../middlewares/isAdmin.js")
 categoryRouter.get("/", authMiddleware, isAdmin, categoryController.getCategory)
 categoryRouter.post("/create", authMiddleware, categoryController.create)
 categoryRouter.delete("/remove/:id", authMiddleware, isAdmin, categoryController.remove)
+categoryRouter.put("/update/:id", authMiddleware, isAdmin, categoryController.update)
+
 
 module.exports = categoryRouter

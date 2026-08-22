@@ -45,4 +45,22 @@ exports.remove = async (req, res) => {
 
 }
 
-exports.update = async (req, res) => { }
+exports.update = async (req, res) => {
+    const id = req.params.id
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
+    }
+
+    const validationResult = categoryValidator(req.body)
+    if (validationResult != true) {
+        return res.status(422).json(validationResult)
+    }
+
+    const { title, href } = req.body
+
+    const category = await categoryModel.findByIdAndUpdate({ _id: id }, {
+        title,
+        href
+    })
+    return res.status(201).json({message:"Category updated successfull."})
+}
