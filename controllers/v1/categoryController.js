@@ -1,5 +1,6 @@
 const categoryModel = require("./../../models/category.js")
 const categoryValidator = require("./../../validators/course/category.js")
+const { isValidObjectId } = require("mongoose")
 
 exports.create = async (req, res) => {
     const validatorResult = categoryValidator(req.body)
@@ -24,11 +25,24 @@ exports.create = async (req, res) => {
 
 exports.getCategory = async (req, res) => {
 
-    const categoryies = await categoryModel.find({},"-_id -__v")
+    const categoryies = await categoryModel.find({}, "-_id -__v")
     return res.status(200).json(categoryies)
 
 }
 
-exports.remove = async (req, res) => { }
+exports.remove = async (req, res) => {
+    const id = req.params.id
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
+    }
+
+    const category = await categoryModel.findByIdAndDelete({ _id: id })
+
+    if (!category) {
+        return res.status(404).json({ message: "Category not found." })
+    }
+    return res.status(201).json({ message: "Category successfully deleted." })
+
+}
 
 exports.update = async (req, res) => { }

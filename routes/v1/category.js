@@ -5,6 +5,6 @@ const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 
 categoryRouter.get("/",authMiddleware,isAdmin,categoryController.getCategory)
-categoryRouter.post("/create",authMiddleware,isAdmin,categoryController.create)
+categoryRouter.post("/create",authMiddleware,categoryController.create)
 
 module.exports = categoryRouter
