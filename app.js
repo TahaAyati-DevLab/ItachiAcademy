@@ -4,6 +4,7 @@ const authRouter = require("./routes/v1/auth.js")
 const userRouter = require("./routes/v1/user.js")
 const categoryRouter = require("./routes/v1/category.js")
 const courseRouter = require("./routes/v1/course.js")
+const sessionRouter = require("./routes/v1/session.js")
 const path = require("path")
 const multer = require("multer")
 
@@ -13,5 +14,6 @@ app.use("/v1/auth",authRouter)
 app.use("/v1/user",userRouter)
 app.use("/v1/category",categoryRouter)
 app.use("/v1/courses",courseRouter)
+app.use("/v1/session",sessionRouter)
 
 module.exports = app
