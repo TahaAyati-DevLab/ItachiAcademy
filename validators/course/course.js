@@ -11,10 +11,6 @@ const schema = {
         type:"string",
         required: true
     },
-    cover: {
-        type: "stirng",
-        required: true
-    },
     support: {
         type: "string",
         required: true
@@ -39,11 +35,7 @@ const schema = {
         type: "string",
         required: true
     },
-    teacher: {
-       type:"string",
-        required: true
-    },
-  $$strict: true
+//   $$strict: true
 }
 
 const check = v.compile(schema)
