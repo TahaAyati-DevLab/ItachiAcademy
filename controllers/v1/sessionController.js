@@ -28,3 +28,8 @@ exports.create = async (req, res) => {
 
     return res.status(201).json({ message: "The course was successfully created." })
 }
+
+exports.all = async(req,res)=>{
+    const sesstions = await sessionModel.find({}).populate("course","title")
+    return res.status(200).json({sesstions})
+}
