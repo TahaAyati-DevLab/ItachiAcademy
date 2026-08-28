@@ -12,10 +12,10 @@ exports.create = async (req, res) => {
 
     const { title, time, free, course } = req.body
 
-    const isCourseExist = await courseModel.findById({_id:id})
+    const isCourseExist = await courseModel.findById({ _id: id })
 
-    if(!isCourseExist){
-        return res.status(404).json({message:"The requested course was not found."})
+    if (!isCourseExist) {
+        return res.status(404).json({ message: "The requested course was not found." })
     }
 
     const session = await sessionModel.create({
@@ -29,7 +29,24 @@ exports.create = async (req, res) => {
     return res.status(201).json({ message: "The course was successfully created." })
 }
 
-exports.all = async(req,res)=>{
-    const sesstions = await sessionModel.find({}).populate("course","title")
-    return res.status(200).json({sesstions})
+exports.all = async (req, res) => {
+    const sesstions = await sessionModel.find({}).populate("course", "title")
+    return res.status(200).json({ sesstions })
+}
+
+exports.remove = async (req, res) => {
+
+    const id = req.params.id
+
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
+    }
+
+    const session = await sessionModel.findByIdAndDelete({ _id: id })
+
+    if (!session) {
+        return res.status(404).json({ message: "No section with this ID was found." })
+    }
+
+    return res.status(201).json({ message: `The item with this title ${session.title} was successfully deleted.` })
 }
