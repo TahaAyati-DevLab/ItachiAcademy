@@ -6,6 +6,7 @@ const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 const multer = require("multer")
 
-courseRouter.route("/create").post(multer({storage:uploader,limits:{fieldNameSize:100000000}}).single("cover"),authMiddleware,courseController.createCourse)
+courseRouter.route("/create").post(multer({storage:uploader,limits:{fieldNameSize:100000000}}).single("cover"),authMiddleware,isAdmin,courseController.createCourse)
+courseRouter.route("/:href/:sessionID").get(courseController.getSessionInfo)
 
 module.exports = courseRouter

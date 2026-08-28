@@ -1,8 +1,10 @@
 const express = require("express")
 const sessionRouter = express.Router()
 const sessionController = require("./../../controllers/v1/sessionController.js")
+const authMiddleware = require("./../../middlewares/auth.js")
+const isAdmin = require("./../../middlewares/isAdmin.js")
 
-sessionRouter.get("/",sessionController.all)
-sessionRouter.post("/:id/create",sessionController.create)
+sessionRouter.get("/",authMiddleware,isAdmin,sessionController.all)
+sessionRouter.post("/:id/create",authMiddleware,isAdmin,sessionController.create)
 
 module.exports = sessionRouter

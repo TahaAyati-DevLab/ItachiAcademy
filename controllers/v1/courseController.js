@@ -1,4 +1,5 @@
 const courseModel = require("./../../models/courses.js")
+const sessionModel = require("./../../models/session.js")
 const courseValidator = require("./../../validators/course/course.js")
 
 exports.createCourse = async (req, res) => {
@@ -22,7 +23,21 @@ exports.createCourse = async (req, res) => {
         teacher: req.user._id
     })
 
-    const mainCourse = await courseModel.findById({_id:course.id})
+    const mainCourse = await courseModel.findById({ _id: course.id })
     return res.status(201).json(mainCourse)
 
+}
+
+exports.getSessionInfo = async (req, res) => {
+    const course = await courseModel.findOne({ href: req.params.href })
+
+
+    const session = await sessionModel.findOne({ _id: req.params.sessionID })
+
+
+    const sessions = await sessionModel.find({ course: course.id })
+
+    console.log(sessions)
+
+    return res.json({session,sessions})
 }
