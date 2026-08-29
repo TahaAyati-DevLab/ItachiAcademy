@@ -34,18 +34,18 @@ exports.createCourse = async (req, res) => {
 
 }
 
-exports.remove = async(req,res)=>{
-    const {id} = req.params
-    if(!isValidObjectId(id)){
-        return res.status(422).json({message:"The entered ID is invalid."})
+exports.remove = async (req, res) => {
+    const { id } = req.params
+    if (!isValidObjectId(id)) {
+        return res.status(422).json({ message: "The entered ID is invalid." })
     }
 
-    const course = await courseModel.findOneAndDelete({_id:id})
-    if(!course){
-        return res.status(404).json({message:"No course with this ID was found."})
+    const course = await courseModel.findOneAndDelete({ _id: id })
+    if (!course) {
+        return res.status(404).json({ message: "No course with this ID was found." })
     }
 
-    return res.status(201).json({message:`The course named ${course.title} was successfully deleted.`})
+    return res.status(201).json({ message: `The course named ${course.title} was successfully deleted.` })
 }
 
 exports.getOne = async (req, res) => {
@@ -56,11 +56,11 @@ exports.getOne = async (req, res) => {
         .find({ course: course._id })
         .countDocuments();
 
-        const isUserRegisterToThisCourse = !!(await courseUserModel.find({
-            user : req.user._id,
-            course: course._id
-        }))
-    return res.status(200).json({ course, sessions, comments, courseUsersCount,isUserRegisterToThisCourse })
+    const isUserRegisterToThisCourse = !!(await courseUserModel.find({
+        user: req.user._id,
+        course: course._id
+    }))
+    return res.status(200).json({ course, sessions, comments, courseUsersCount, isUserRegisterToThisCourse })
 }
 
 exports.getSessionInfo = async (req, res) => {
@@ -111,3 +111,20 @@ exports.allCourseThisCategory = async (req, res) => {
         courses
     });
 };
+
+exports.courseRelated = async (req, res) => {
+    const { href } = req.params;
+    const course = await courseModel.findOne({ href })
+
+    if (!course) {
+        return res.status(404).json({
+            message: "Course not found..."
+        });
+    }
+
+    let courseRelated = await courseModel.find({ categoryID: course.categoryID }).populate("categoryID")
+    courseRelated = courseRelated.filter((course) => course.href !== href)
+
+
+    return res.status(200).json({ courseRelated })
+}

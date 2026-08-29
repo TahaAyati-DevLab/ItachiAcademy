@@ -35,6 +35,7 @@ const schema = new mongoose.Schema({
     },
     categoryID: {
         type: mongoose.Types.ObjectId,
+        ref:"category",
         required: true
     },
     teacher: {
