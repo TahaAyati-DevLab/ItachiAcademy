@@ -6,6 +6,7 @@ const categoryModel = require("./../../models/category.js")
 const commentModel = require("../../models/comments.js")
 const userModel = require("../../models/users.js")
 const courseUserModel = require("./../../models/course-user.js")
+const { isValidObjectId } = require("mongoose")
 
 exports.createCourse = async (req, res) => {
     const validationResult = courseValidator(req.body)
@@ -31,6 +32,20 @@ exports.createCourse = async (req, res) => {
     const mainCourse = await courseModel.findById({ _id: course.id })
     return res.status(201).json(mainCourse)
 
+}
+
+exports.remove = async(req,res)=>{
+    const {id} = req.params
+    if(!isValidObjectId(id)){
+        return res.status(422).json({message:"The entered ID is invalid."})
+    }
+
+    const course = await courseModel.findOneAndDelete({_id:id})
+    if(!course){
+        return res.status(404).json({message:"No course with this ID was found."})
+    }
+
+    return res.status(201).json({message:`The course named ${course.title} was successfully deleted.`})
 }
 
 exports.getOne = async (req, res) => {
