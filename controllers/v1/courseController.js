@@ -3,6 +3,9 @@ const sessionModel = require("./../../models/session.js")
 const courseUser = require("./../../models/course-user.js")
 const courseValidator = require("./../../validators/course/course.js")
 const categoryModel = require("./../../models/category.js")
+const commentModel = require("../../models/comments.js")
+const userModel = require("../../models/users.js")
+const courseUserModel = require("./../../models/course-user.js")
 
 exports.createCourse = async (req, res) => {
     const validationResult = courseValidator(req.body)
@@ -28,6 +31,16 @@ exports.createCourse = async (req, res) => {
     const mainCourse = await courseModel.findById({ _id: course.id })
     return res.status(201).json(mainCourse)
 
+}
+
+exports.getOne = async (req, res) => {
+    const course = await courseModel.findOne({ href: req.params.href }).populate("teacher", "-password").populate("categoryID").lean()
+    const sessions = await sessionModel.find({ course: course._id }).lean()
+    const comments = await commentModel.find({ course: course._id, isAccept: 1 }).populate("user")
+    const courseUsersCount = await courseUserModel
+        .find({ course: course._id })
+        .countDocuments();
+    return res.status(200).json({ course, sessions, comments, courseUsersCount })
 }
 
 exports.getSessionInfo = async (req, res) => {
