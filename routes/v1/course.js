@@ -8,7 +8,7 @@ const multer = require("multer")
 
 courseRouter.get("/category/:href",courseController.allCourseThisCategory)
 courseRouter.route("/create").post(multer({ storage: uploader, limits: { fieldNameSize: 100000000 } }).single("cover"), authMiddleware, isAdmin, courseController.createCourse)
-courseRouter.route("/:href").get(courseController.getOne)
+courseRouter.route("/:href").get(authMiddleware,courseController.getOne)
 courseRouter.route("/:href/:sessionID").get(courseController.getSessionInfo)
 courseRouter.post("/:id/register", authMiddleware, courseController.register)
 

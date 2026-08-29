@@ -40,7 +40,12 @@ exports.getOne = async (req, res) => {
     const courseUsersCount = await courseUserModel
         .find({ course: course._id })
         .countDocuments();
-    return res.status(200).json({ course, sessions, comments, courseUsersCount })
+
+        const isUserRegisterToThisCourse = !!(await courseUserModel.find({
+            user : req.user._id,
+            course: course._id
+        }))
+    return res.status(200).json({ course, sessions, comments, courseUsersCount,isUserRegisterToThisCourse })
 }
 
 exports.getSessionInfo = async (req, res) => {
