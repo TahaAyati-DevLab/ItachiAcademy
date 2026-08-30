@@ -51,7 +51,7 @@ exports.remove = async (req, res) => {
 exports.getOne = async (req, res) => {
     const course = await courseModel.findOne({ href: req.params.href }).populate("teacher", "-password").populate("categoryID").lean()
     const sessions = await sessionModel.find({ course: course._id }).lean()
-    const comments = await commentModel.find({ course: course._id, isAccept: 1 }).populate("user")
+    const comments = await commentModel.find({ course: course._id, isAccept: 1 }).populate("user","-password").lean()
     const courseUsersCount = await courseUserModel
         .find({ course: course._id })
         .countDocuments();
@@ -60,7 +60,23 @@ exports.getOne = async (req, res) => {
         user: req.user._id,
         course: course._id
     }))
-    return res.status(200).json({ course, sessions, comments, courseUsersCount, isUserRegisterToThisCourse })
+
+    let allComments = []
+
+    comments.forEach((comment)=>{
+        comments.forEach((answerComment)=>{
+            if(String(comment._id) === String(answerComment.mainCommentID)){
+                allComments.push({
+                    ...comment,
+                    course: comment.course.title,
+                    user: comment.user.name,
+                    answerComment
+                })
+            }
+        })
+    })
+
+    return res.status(200).json({ course, sessions, comments: allComments, courseUsersCount, isUserRegisterToThisCourse })
 }
 
 exports.getSessionInfo = async (req, res) => {
