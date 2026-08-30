@@ -8,6 +8,7 @@ const sessionRouter = require("./routes/v1/session.js")
 const commentrouter = require("./routes/v1/comments.js")
 const contactRouter = require("./routes/v1/contact.js")
 const newsletterRouter = require("./routes/v1/newsletter.js")
+const searchRouter = require("./routes/v1/search.js")
 
 const path = require("path")
 const multer = require("multer")
@@ -20,7 +21,9 @@ app.use("/v1/category", categoryRouter)
 app.use("/v1/courses", courseRouter)
 app.use("/v1/session", sessionRouter)
 app.use("/v1/contact", contactRouter)
+app.use("/v1/comments", commentrouter)
 app.use("/v1/newsletter", newsletterRouter)
+app.use("/v1/search", searchRouter)
 
 
 
