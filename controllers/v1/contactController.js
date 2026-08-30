@@ -18,6 +18,15 @@ exports.create = async (req, res) => {
 
     return res.status(201).json(contact)
 }
-exports.remove = async (req, res) => { }
+
+exports.remove = async (req, res) => {
+    const contact = await contactModel.findByIdAndDelete({_id:req.params.id})
+      if (!contact) {
+        return res.status(404).json({
+            message: "contact not found..."
+        });
+    }
+    return res.status(201).json({message:"Contact delete successfully..."})
+ }
 
 exports.answer = async (req, res) => { }
