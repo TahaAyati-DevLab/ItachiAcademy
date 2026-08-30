@@ -20,13 +20,15 @@ const schema = new mongoose.Schema({
     },
     score: {
         type: Number,
-        required: true
-    }, isAnswer: {
+        default: 5
+    }, 
+    isAnswer: {
         type: Number,
         required: true
     },
     mainCommentID: {
-        type: Number,
+        type: mongoose.Types.ObjectId,
+        ref:"comments",
         required: true
     }
 }, { timestamps: true })

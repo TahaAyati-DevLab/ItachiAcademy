@@ -43,6 +43,7 @@ exports.accept = async (req, res) => {
         return res.status(201).json({ message: "Comment successfully accept." })
 
 }
+
 exports.reject = async (req, res) => {
     const rejectComment = await commentModel.findByIdAndUpdate({ _id: req.params.id }, {
         isAccept: 0
@@ -52,4 +53,27 @@ exports.reject = async (req, res) => {
         return res.status(404).json({ message: "No comment with this ID was found." })
     }
         return res.status(201).json({ message: "Comment successfully reject." })
+}
+
+exports.answer = async(req,res)=>{
+    const {body} = req.body
+
+    const comment = await commentModel.findByIdAndUpdate({_id:req.params.id},{
+        isAccept:1
+    })
+
+    if(!comment){
+        return res.status(404).json({message:"Comment not found..."})
+    }
+
+    const answerComment = await commentModel.create({
+        body,
+        course:comment.course,
+        user : req.user._id,
+        isAccept:1,
+        isAnswer:1,
+        mainCommentID:req.params.id
+    })
+
+    return res.status(201).json(answerComment)
 }
