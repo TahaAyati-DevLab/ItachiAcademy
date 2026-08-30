@@ -1,5 +1,6 @@
 const express = require("express")
 const contactRouter = express.Router()
+const contactController = require("./../../controllers/v1/contactController.js")
 const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 
