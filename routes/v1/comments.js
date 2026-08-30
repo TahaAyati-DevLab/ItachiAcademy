@@ -5,6 +5,7 @@ const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 
 commentRouter.post("/", authMiddleware, commentController.create)
+commentRouter.get("/",commentController.getAll)
 commentRouter.delete("/remove/:id", authMiddleware, isAdmin, commentController.remove)
 commentRouter.put("/:id/accept",authMiddleware,isAdmin,commentController.accept)
 commentRouter.put("/:id/reject",authMiddleware,isAdmin,commentController.reject)

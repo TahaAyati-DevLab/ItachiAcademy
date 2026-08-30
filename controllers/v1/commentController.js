@@ -40,7 +40,7 @@ exports.accept = async (req, res) => {
     if (!acceptComment) {
         return res.status(404).json({ message: "No comment with this ID was found." })
     }
-        return res.status(201).json({ message: "Comment successfully accept." })
+    return res.status(201).json({ message: "Comment successfully accept." })
 
 }
 
@@ -49,31 +49,52 @@ exports.reject = async (req, res) => {
         isAccept: 0
     })
 
-        if (!rejectComment) {
+    if (!rejectComment) {
         return res.status(404).json({ message: "No comment with this ID was found." })
     }
-        return res.status(201).json({ message: "Comment successfully reject." })
+    return res.status(201).json({ message: "Comment successfully reject." })
 }
 
-exports.answer = async(req,res)=>{
-    const {body} = req.body
+exports.answer = async (req, res) => {
+    const { body } = req.body
 
-    const comment = await commentModel.findByIdAndUpdate({_id:req.params.id},{
-        isAccept:1
+    const comment = await commentModel.findByIdAndUpdate({ _id: req.params.id }, {
+        isAccept: 1
     })
 
-    if(!comment){
-        return res.status(404).json({message:"Comment not found..."})
+    if (!comment) {
+        return res.status(404).json({ message: "Comment not found..." })
     }
 
     const answerComment = await commentModel.create({
         body,
-        course:comment.course,
-        user : req.user._id,
-        isAccept:1,
-        isAnswer:1,
-        mainCommentID:req.params.id
+        course: comment.course,
+        user: req.user._id,
+        isAccept: 1,
+        isAnswer: 1,
+        mainCommentID: req.params.id
     })
 
     return res.status(201).json(answerComment)
+}
+
+exports.getAll = async (req, res) => {
+
+    const comments = await commentModel.find({}).populate("course").populate("user", "-password").lean()
+
+    let allComments = []
+
+    comments.forEach((comment) => {
+        comments.forEach((answerComment) => {
+            if (String(comment._id) === String(answerComment.mainCommentID)) {
+                allComments.push({
+                    ...comment,
+                    answerComment
+                })
+            }
+        })
+    })
+
+    return res.status(200).json({ comments: allComments })
+
 }
