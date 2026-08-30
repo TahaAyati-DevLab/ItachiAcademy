@@ -1,10 +1,14 @@
 const contactModel = require("./../../models/contact.js")
 
-exports.getAll = async (req, res) => { }
+exports.getAll = async (req, res) => {
+    const contact = await contactModel.find({}).lean()
+    return res.status(200).json(contact)
+}
+
 exports.create = async (req, res) => {
     const {name,email,phone,body} = req.body
 
-    const concat = await contactModel.create({
+    const contact = await contactModel.create({
         name,
         email,
         phone,
@@ -12,7 +16,8 @@ exports.create = async (req, res) => {
         answer: 0
     })
 
-    return res.status(201).json(concat)
+    return res.status(201).json(contact)
 }
 exports.remove = async (req, res) => { }
+
 exports.answer = async (req, res) => { }
