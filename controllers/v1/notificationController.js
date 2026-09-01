@@ -25,4 +25,10 @@ exports.getAll = async(req,res)=>{
     return res.status(200).json(notifications)
 }
 
-exports.seen = async(req,res)=>{}
+exports.seen = async(req,res)=>{
+    const {id} = req.params
+    const notification = await notificationModel.findByIdAndUpdate({_id:id},{
+        seen:1
+    })
+    return res.status(200).json({message:"Notification seen..."})
+}
