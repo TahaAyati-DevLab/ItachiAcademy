@@ -4,8 +4,8 @@ const notificationController = require("./../../controllers/v1/notificationContr
 const authMiddleware = require("./../../middlewares/auth.js")
 const isAdmin = require("./../../middlewares/isAdmin.js")
 
-notificationRouter.route("/").post(authMiddleware,isAdmin,notificationController.create)
-notificationRouter.route("/:adminID").post(authMiddleware,isAdmin,notificationController.get)
+notificationRouter.route("/").post(authMiddleware,isAdmin,notificationController.create).get(authMiddleware,isAdmin,notificationController.getAll)
+notificationRouter.route("/admin").get(authMiddleware,isAdmin,notificationController.get)
 notificationRouter.route("/:id/see").post(authMiddleware,isAdmin,notificationController.seen)
 
 

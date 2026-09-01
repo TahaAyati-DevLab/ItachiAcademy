@@ -7,10 +7,12 @@ const schema = new mongoose.Schema({
     },
     admin:{
         type:mongoose.Types.ObjectId,
+        ref:"users",
         required:true
     },
     seen:{
         type:Number,
+        default:0,
         required:true
     }
 },{timestamps:true})
