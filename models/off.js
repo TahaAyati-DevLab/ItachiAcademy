@@ -11,6 +11,7 @@ const schema = new mongoose.Schema({
     },
     course:{
         type:mongoose.Types.ObjectId,
+        ref:"courses",
         required:true
     },
     max:{
@@ -23,6 +24,7 @@ const schema = new mongoose.Schema({
     },
     creator:{
         type:mongoose.Types.ObjectId,
+        ref:"users",
         required:true
     }
 },{timestamps:true})

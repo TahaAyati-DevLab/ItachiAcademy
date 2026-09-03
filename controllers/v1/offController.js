@@ -1,7 +1,10 @@
 const offModel = require("./../../models/off.js")
 const courseModel = require("./../../models/courses.js")
 
-exports.getAll = async (req, res) => { }
+exports.getAll = async (req, res) => {
+    const offs = await offModel.find({}, "-__v").populate("course", "title href").populate("creator", "username")
+    return res.status(200).json(offs)
+}
 
 exports.create = async (req, res) => {
     const { code, pertcent, course, max } = req.body
