@@ -3,7 +3,20 @@ const courseModel = require("./../../models/courses.js")
 
 exports.getAll = async (req, res) => { }
 
-exports.create = async (req, res) => { }
+exports.create = async (req, res) => {
+    const { code, pertcent, course, max } = req.body
+
+    const newOff = await offModel.create({
+        code,
+        pertcent,
+        course,
+        max,
+        uses: 0,
+        creator: req.user._id
+    })
+
+    return res.status(201).json(newOff)
+}
 
 exports.setOneAll = async (req, res) => {
 
