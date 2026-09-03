@@ -11,6 +11,7 @@ const newsletterRouter = require("./routes/v1/newsletter.js")
 const searchRouter = require("./routes/v1/search.js")
 const notificationRouter = require("./routes/v1/notification.js")
 const offRouter = require("./routes/v1/off.js")
+const orderRouter = require("./routes/v1/order.js")
 
 const path = require("path")
 const multer = require("multer")
@@ -28,7 +29,7 @@ app.use("/v1/newsletter", newsletterRouter)
 app.use("/v1/search", searchRouter)
 app.use("/v1/notification", notificationRouter)
 app.use("/v1/offer", offRouter)
-
+app.use("/v1/order", orderRouter)
 
 
 

@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
     },
     course: {
         type: mongoose.Types.ObjectId,
+        ref:"courses",
         required: true
     },
     price: {
