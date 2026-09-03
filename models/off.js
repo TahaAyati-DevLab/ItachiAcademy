@@ -27,5 +27,5 @@ const schema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-const offModel = mongoose.model("off",offModel)
+const offModel = mongoose.model("off",schema)
 module.exports = offModel
