@@ -1,5 +1,4 @@
 const departmenModel = require("../../models/departmen.js")
-const { departments } = require("./ticketController.js")
 
 exports.create = async(req,res)=>{
     const {title} = req.body
@@ -8,10 +7,12 @@ exports.create = async(req,res)=>{
     })
     return res.status(201).json(departmen)
 }
+
 exports.getAll = async(req,res)=>{
     const departmens = await departmenModel.find({}).lean()
     return res.status(200).json(departmens)
 }
+
 exports.remove = async(req,res)=>{
     const {id} = req.params
 

@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
     },
     parent: {
         type: mongoose.Types.ObjectId,
-        ref: "department",
+        ref: "departmen",
         required: true
     }
 }, { timestamps: true })
