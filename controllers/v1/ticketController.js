@@ -21,7 +21,10 @@ exports.create = async (req, res) => {
     return res.status(201).json(mainTicket)
 }
 
-exports.getAll = async (req, res) => { }
+exports.getAll = async (req, res) => {
+    const tickets = await ticketModel.find({answer:0}).populate("departmenID","title").populate("departmenSubID","title").populate("user","username")
+    return res.status(200).json(tickets)
+}
 
 exports.userTickets = async (req, res) => { }
 
