@@ -33,6 +33,15 @@ const schema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    isAnswer:{
+        type:Number,
+        required:true
+    },
+    parent:{
+        type:mongoose.Types.ObjectId,
+        ref:"ticket",
+        required:false
+    },
     course: {
         type: mongoose.Types.ObjectId,
         ref: "courses",

@@ -1,7 +1,25 @@
 const departmenModel = require("./../../models/departmen.js")
 const departmenSubModel = require("./../../models/departmen-sub.js")
+const ticketModel = require("./../../models/ticket.js")
 
-exports.create = async (req, res) => { }
+exports.create = async (req, res) => {
+    const { departmenID, departmenSubID, priority, title, body, answer, isAnswer, parent, course, } = req.body
+
+    const ticket = await ticketModel.create({
+        departmenID,
+        departmenSubID,
+        user: req.user._id,
+        priority,
+        title,
+        body,
+        answer: 0,
+        isAnswer: 0,
+        course
+    })
+
+    const mainTicket = await ticketModel.findOne({_id:ticket._id}).populate("departmenID").populate("departmenSubID")
+    return res.status(201).json(mainTicket)
+}
 
 exports.getAll = async (req, res) => { }
 
