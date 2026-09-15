@@ -37,7 +37,7 @@ npm install</code></pre>
 
 <pre><code>nodemon</code></pre>
 
-<h2>🎯 Goal</h2>
+<h2>Goal</h2>
 
 <p>
   Built to strengthen backend development skills through a practical,
