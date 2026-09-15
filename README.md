@@ -27,7 +27,7 @@
   <li>REST API</li>
 </ul>
 
-<h2>⚡ Installation</h2>
+<h2>Installation</h2>
 
 <pre><code>git clone https://github.com/TahaAyati-DevLab/ItachiAcademy.git
 cd ItachiAcademy
