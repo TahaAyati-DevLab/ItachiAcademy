@@ -44,7 +44,7 @@ npm install</code></pre>
   scalable, and maintainable API project.
 </p>
 
-<h2>👨‍💻 Developer</h2>
+<h2>Developer</h2>
 
 <p>
   <strong>Built by Taha Ayati</strong>
